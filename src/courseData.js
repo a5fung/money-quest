@@ -326,7 +326,7 @@ This doesn't mean never take risks. It means structure your portfolio so that ev
     description: "Risk, Black Swans & protecting your downside.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/9sXQXq9wJPU",
+      videoUrl: "https://www.youtube.com/embed/HKCtSzpYrs4",
       article: `## The Black Swan
 
 Before 1697, every European believed all swans were white. They had centuries of data to prove it. Then explorers reached Australia and found black swans. One observation destroyed a belief held for thousands of years.
