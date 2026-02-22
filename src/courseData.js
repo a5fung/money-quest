@@ -7,12 +7,12 @@ export const courseData = [
     act: 1,
     actName: "AWAKENING",
     emoji: "🎭",
-    color: "#a78bfa",
+    color: "#f472b6",
     title: "The Player",
     description: "Wealth ≠ Rich. The invisible game most people never see.",
     locked: false,
     content: {
-      videoUrl: "https://www.youtube.com/embed/_5ecgEXLoCA",
+      videoUrl: "https://www.youtube.com/embed/TtJXl6pk0Z4",
       article: `## The Man in the Car Paradox
 
 Imagine you see someone driving a bright red Ferrari. Here's the truth nobody talks about: you don't actually think, "Wow, that person is cool." You think, "If *I* had that car, people would think *I'm* cool."
@@ -48,12 +48,12 @@ Most people play a game they don't understand. They earn money, spend it on thin
     act: 1,
     actName: "AWAKENING",
     emoji: "🏰",
-    color: "#a78bfa",
+    color: "#f472b6",
     title: "The Fortress",
     description: "Your emergency fund is armor against chaos.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/fVToMS2Q3XQ",
+      videoUrl: "https://www.youtube.com/embed/eDLGUj5ijQI",
       article: `## The Turkey Problem
 
 Nassim Taleb tells this story: A turkey is fed by a farmer every single day for 1,000 days. Each day, the turkey's confidence grows — "This farmer loves me!" On day 1,001, just before Thanksgiving, the turkey learns the painful truth.
@@ -89,12 +89,12 @@ Start small. Even $500 set aside changes your psychology. You stop making decisi
     act: 1,
     actName: "AWAKENING",
     emoji: "⚡",
-    color: "#a78bfa",
+    color: "#f472b6",
     title: "The Engine",
     description: "Compounding is the 8th wonder of the world.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/wf91rEGw88Q",
+      videoUrl: "https://www.youtube.com/embed/rri9dQg7O_g",
       article: `## Warren Buffett's Real Secret
 
 Warren Buffett's net worth is over $100 billion. Here's the part that will surprise you: **$99.7 billion of it came after his 50th birthday.** And $97 billion came after he turned 65.
@@ -138,12 +138,12 @@ Compounding is unintuitive because the results are backloaded. The first 10 year
     act: 2,
     actName: "BUILDING",
     emoji: "📐",
-    color: "#60a5fa",
+    color: "#38bdf8",
     title: "The Blueprint",
     description: "Simple budgeting & the pay-yourself-first system.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/HQzoZfc3GwQ",
+      videoUrl: "https://www.youtube.com/embed/g7vGrynFrps",
       article: `## The 50/30/20 Framework
 
 Most budgets fail because they're too complicated. You don't need a spreadsheet with 47 categories. You need a blueprint — simple, clear, and automatic.
@@ -185,12 +185,12 @@ Set up an automatic transfer from your checking to your savings account on payda
     act: 2,
     actName: "BUILDING",
     emoji: "🪤",
-    color: "#60a5fa",
+    color: "#38bdf8",
     title: "The Trap",
     description: "Debt, lifestyle inflation & the hedonic treadmill.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/dvymzi8zncs",
+      videoUrl: "https://www.youtube.com/embed/j3txNYHC5_k",
       article: `## The Hedonic Treadmill
 
 You get a raise. You feel amazing — for about two weeks. Then you upgrade your apartment, your car, your wardrobe. Now you need the *new* salary just to stay afloat. Another raise comes. The cycle repeats.
@@ -228,12 +228,12 @@ Consumer debt (credit cards, car loans) works like compounding in reverse. Inste
     act: 2,
     actName: "BUILDING",
     emoji: "🌱",
-    color: "#60a5fa",
+    color: "#38bdf8",
     title: "The Seed",
     description: "Investing 101 — index funds & the power of patience.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/fwe-PjrX23o",
+      videoUrl: "https://www.youtube.com/embed/5gIXpkQkX8A",
       article: `## Buffett's Million-Dollar Bet
 
 In 2007, Warren Buffett made a $1 million bet. He wagered that a simple S&P 500 index fund would beat a collection of hand-picked hedge funds over 10 years. These hedge funds charged massive fees and employed the smartest people on Wall Street.
@@ -277,12 +277,12 @@ You don't need to be smart. You don't need to pick stocks. You just need to buy 
     act: 3,
     actName: "GROWING",
     emoji: "🌳",
-    color: "#34d399",
+    color: "#a3e635",
     title: "The Garden",
     description: "Diversification & the barbell strategy.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/Nu4lHaSh7D4",
+      videoUrl: "https://www.youtube.com/embed/d0sLe3tE5Ro",
       article: `## Don't Put All Your Seeds in One Pot
 
 Imagine a garden with only one type of plant. If a disease hits that species, your entire garden dies. But a garden with dozens of different plants? Some will struggle, but the garden survives.
@@ -321,12 +321,12 @@ This doesn't mean never take risks. It means structure your portfolio so that ev
     act: 3,
     actName: "GROWING",
     emoji: "🛡️",
-    color: "#34d399",
+    color: "#a3e635",
     title: "The Shield",
     description: "Risk, Black Swans & protecting your downside.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/caPy0OZmXKs",
+      videoUrl: "https://www.youtube.com/embed/9sXQXq9wJPU",
       article: `## The Black Swan
 
 Before 1697, every European believed all swans were white. They had centuries of data to prove it. Then explorers reached Australia and found black swans. One observation destroyed a belief held for thousands of years.
@@ -369,12 +369,12 @@ Your financial life should be antifragile:
     act: 3,
     actName: "GROWING",
     emoji: "🚀",
-    color: "#34d399",
+    color: "#a3e635",
     title: "The Multiplier",
     description: "Growing your income & investing in human capital.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/gpuYIfUCNRQ",
+      videoUrl: "https://www.youtube.com/embed/09ROXp69_GU",
       article: `## The Earn-More Side of the Equation
 
 Budgeting and saving are powerful — but they have a floor. You can only cut expenses so much before life becomes miserable. Your income, on the other hand, has **no ceiling.**
@@ -420,12 +420,12 @@ Spending an hour learning a high-value skill can be worth more than an hour of o
     act: 4,
     actName: "MASTERY",
     emoji: "🏗️",
-    color: "#fbbf24",
+    color: "#fb923c",
     title: "The Architect",
     description: "Spend with purpose — time is worth more than money.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/Fsdkt9h9IFo",
+      videoUrl: "https://www.youtube.com/embed/n1b7piSmmME",
       article: `## The Richest Corpse in the Cemetery
 
 Bill Perkins asks a haunting question in *Die With Zero*: "What's the point of having all this money if you never use it to live?"
@@ -467,12 +467,12 @@ The goal isn't to hoard the most money. The goal is to extract the most *life* f
     act: 4,
     actName: "MASTERY",
     emoji: "🧭",
-    color: "#fbbf24",
+    color: "#fb923c",
     title: "The Compass",
     description: "Behavioral traps & staying the course.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/wEwGBIr_RIw",
+      videoUrl: "https://www.youtube.com/embed/EZjOYeZnQYA",
       article: `## Your Brain Is Working Against You
 
 You've now learned the mechanics of money: save, invest, compound, diversify. The hard part isn't knowing what to do — **it's doing it when your brain is screaming at you to stop.**
@@ -512,12 +512,12 @@ Charlie Munger spent decades studying human biases. His antidote is simple: **cr
     act: 4,
     actName: "MASTERY",
     emoji: "♾️",
-    color: "#fbbf24",
+    color: "#fb923c",
     title: "The Infinite Game",
     description: "Enough, generosity & playing the long game.",
     locked: true,
     content: {
-      videoUrl: "https://www.youtube.com/embed/gUTTxgaU9Js",
+      videoUrl: "https://www.youtube.com/embed/I0YEL6fw3Ks",
       article: `## The Concept of Enough
 
 Rajat Gupta had everything — CEO of McKinsey, net worth of $100 million, respect of the business world. But he wanted to be a *billionaire.* So he traded on insider information, got caught, and lost everything. His career. His reputation. His freedom.

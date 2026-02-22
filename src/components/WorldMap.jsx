@@ -4,10 +4,26 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion'; // eslint-disable-line no-unused-vars
 
 const actColors = {
-  1: { accent: '#a78bfa', bg: 'from-purple-500/10 to-transparent', border: 'border-purple-400', glow: 'rgba(167,139,250,0.4)' },
-  2: { accent: '#60a5fa', bg: 'from-blue-500/10 to-transparent', border: 'border-blue-400', glow: 'rgba(96,165,250,0.4)' },
-  3: { accent: '#34d399', bg: 'from-emerald-500/10 to-transparent', border: 'border-emerald-400', glow: 'rgba(52,211,153,0.4)' },
-  4: { accent: '#fbbf24', bg: 'from-amber-500/10 to-transparent', border: 'border-amber-400', glow: 'rgba(251,191,36,0.4)' },
+  1: {
+    accent: '#f472b6', dark: '#831843', mid: '#9d174d',
+    gradient: 'linear-gradient(135deg, #ec4899, #db2777)',
+    glow: 'rgba(244,114,182,0.6)',
+  },
+  2: {
+    accent: '#38bdf8', dark: '#0c4a6e', mid: '#0369a1',
+    gradient: 'linear-gradient(135deg, #38bdf8, #0284c7)',
+    glow: 'rgba(56,189,248,0.6)',
+  },
+  3: {
+    accent: '#a3e635', dark: '#365314', mid: '#4d7c0f',
+    gradient: 'linear-gradient(135deg, #a3e635, #65a30d)',
+    glow: 'rgba(163,230,53,0.6)',
+  },
+  4: {
+    accent: '#fb923c', dark: '#7c2d12', mid: '#c2410c',
+    gradient: 'linear-gradient(135deg, #fb923c, #ea580c)',
+    glow: 'rgba(251,146,60,0.6)',
+  },
 };
 
 const acts = [
@@ -17,6 +33,16 @@ const acts = [
   { id: 4, name: "MASTERY", subtitle: "Philosophy & Freedom", levels: [10, 11, 12] },
 ];
 
+// Decorative sparkle component
+const Sparkle = ({ color, size = 16, className = '' }) => (
+  <span
+    className={`inline-block animate-twinkle ${className}`}
+    style={{ color, fontSize: size, filter: `drop-shadow(0 0 ${size/2}px ${color})`, lineHeight: 1 }}
+  >
+    ✦
+  </span>
+);
+
 const WorldMap = ({ data, unlocked, completed }) => {
   const navigate = useNavigate();
 
@@ -25,146 +51,210 @@ const WorldMap = ({ data, unlocked, completed }) => {
   const isNext = (id) => isUnlocked(id) && !isCompleted(id);
 
   return (
-    <div className="min-h-screen bg-[#0a192f] pb-20 pt-8">
-      <div className="max-w-2xl mx-auto px-4">
+    <div className="min-h-screen pb-20 pt-4 relative overflow-hidden">
+      <div className="max-w-2xl mx-auto px-4 relative z-10">
         {acts.map((act, actIndex) => {
           const actLevels = data.filter(l => act.levels.includes(l.id));
           const theme = actColors[act.id];
 
           return (
-            <div key={act.id} className="mb-4">
-              {/* ACT HEADER */}
+            <div key={act.id} className="mb-10 relative">
+              {/* Big soft glow behind each act */}
+              <div
+                className="absolute top-0 left-1/2 -translate-x-1/2 w-[110%] h-full rounded-[40px] pointer-events-none"
+                style={{
+                  background: `radial-gradient(ellipse at center, ${theme.accent}18, transparent 70%)`,
+                }}
+              />
+
+              {/* ACT HEADER — manga-style diagonal banner */}
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: actIndex * 0.1 }}
-                className="flex items-center gap-3 mb-6 mt-8"
+                initial={{ opacity: 0, x: -60, rotate: -5 }}
+                animate={{ opacity: 1, x: 0, rotate: 0 }}
+                transition={{ delay: actIndex * 0.15, type: 'spring', stiffness: 120 }}
+                className="mb-6 mt-8 relative"
               >
-                <div className="h-px flex-1" style={{ background: `linear-gradient(to right, ${theme.accent}66, transparent)` }} />
-                <div className="text-center px-4">
-                  <div className="text-[10px] font-heading font-bold tracking-[0.3em]" style={{ color: theme.accent }}>ACT {act.id}</div>
-                  <div className="text-sm font-heading font-bold text-white uppercase tracking-wider">{act.name}</div>
-                  <div className="text-[10px] text-[#8892b0] font-body">{act.subtitle}</div>
+                <div className="relative">
+                  {/* Banner shape */}
+                  <div
+                    className="relative px-6 py-4 overflow-hidden"
+                    style={{
+                      background: theme.gradient,
+                      clipPath: 'polygon(0 0, 100% 0, 96% 100%, 2% 100%)',
+                      border: 'none',
+                    }}
+                  >
+                    {/* Speed lines inside banner */}
+                    <div className="absolute inset-0 opacity-[0.12]" style={{
+                      backgroundImage: 'repeating-linear-gradient(-30deg, transparent, transparent 6px, white 6px, white 7px)',
+                    }} />
+                    {/* Starburst decoration */}
+                    <div
+                      className="absolute -right-4 -top-4 w-24 h-24 opacity-20"
+                      style={{
+                        background: `radial-gradient(circle, white 0%, transparent 70%)`,
+                      }}
+                    />
+
+                    <div className="flex items-center gap-4 relative z-10">
+                      {/* Act number — big bold circle */}
+                      <div
+                        className="w-14 h-14 rounded-full flex items-center justify-center font-anime text-3xl text-black flex-shrink-0"
+                        style={{
+                          background: '#fff',
+                          boxShadow: '3px 3px 0 rgba(0,0,0,0.4)',
+                        }}
+                      >
+                        {act.id}
+                      </div>
+                      <div>
+                        <div className="font-anime text-2xl md:text-3xl text-white tracking-wider" style={{ textShadow: '2px 2px 0 rgba(0,0,0,0.4)' }}>
+                          {act.name}
+                        </div>
+                        <div className="text-xs text-white/80 font-body font-bold tracking-wide">{act.subtitle}</div>
+                      </div>
+                      {/* Decorative sparkles */}
+                      <div className="ml-auto flex gap-2">
+                        <Sparkle color="#fff" size={20} />
+                        <Sparkle color="#fff" size={14} className="animate-twinkle-delay" />
+                      </div>
+                    </div>
+                  </div>
+                  {/* Shadow bar underneath */}
+                  <div className="h-2 mx-2" style={{
+                    background: theme.dark,
+                    clipPath: 'polygon(1% 0, 99% 0, 97% 100%, 3% 100%)',
+                  }} />
                 </div>
-                <div className="h-px flex-1" style={{ background: `linear-gradient(to left, ${theme.accent}66, transparent)` }} />
               </motion.div>
 
-              {/* LEVELS IN THIS ACT */}
-              <div className="relative">
+              {/* LEVELS */}
+              <div className="relative pl-8">
+                {/* Vertical connector rail */}
+                <div
+                  className="absolute left-[30px] top-0 bottom-0 w-1 rounded-full"
+                  style={{ background: `linear-gradient(to bottom, ${theme.accent}60, ${theme.accent}10)` }}
+                />
+
                 {actLevels.map((level, i) => {
                   const done = isCompleted(level.id);
                   const open = isUnlocked(level.id);
                   const next = isNext(level.id);
-                  const isRight = i % 2 === 1;
 
                   return (
-                    <div key={level.id} className="relative">
-                      {/* CONNECTOR LINE */}
-                      {i > 0 && (
-                        <div className="flex justify-center -my-1">
-                          <svg width="2" height="32" className="overflow-visible">
-                            <line
-                              x1="1" y1="0" x2="1" y2="32"
-                              stroke={done || open ? theme.accent : 'rgba(255,255,255,0.1)'}
-                              strokeWidth="2"
-                              strokeDasharray="4 4"
-                              className={done || open ? 'animate-dash' : ''}
-                              strokeOpacity={done || open ? 0.5 : 1}
-                            />
-                          </svg>
-                        </div>
-                      )}
-
-                      {/* LEVEL NODE */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: actIndex * 0.1 + i * 0.08 }}
-                        className={`flex ${isRight ? 'justify-end' : 'justify-start'} md:px-8`}
+                    <motion.div
+                      key={level.id}
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: actIndex * 0.15 + i * 0.1, type: 'spring', stiffness: 100 }}
+                      className="relative mb-4"
+                    >
+                      {/* Node dot on the rail */}
+                      <div
+                        className="absolute -left-[13px] top-6 w-7 h-7 rounded-full flex items-center justify-center z-10"
+                        style={{
+                          background: done ? '#22c55e' : open ? theme.accent : '#444',
+                          border: '3px solid #000',
+                          boxShadow: (next || done) ? `0 0 12px ${done ? 'rgba(34,197,94,0.6)' : theme.glow}` : 'none',
+                        }}
                       >
-                        <button
-                          onClick={() => open && navigate(`/level/${level.id}`)}
-                          disabled={!open}
-                          className={`
-                            relative w-full max-w-sm p-5 rounded-2xl border-l-4 border-y border-r transition-all duration-300 text-left
-                            flex items-center gap-4 group
-                            ${done
-                              ? 'bg-emerald-500/5 border-y-emerald-500/20 border-r-emerald-500/20 cursor-pointer hover:bg-emerald-500/10 hover:-translate-y-1 hover:shadow-lg'
+                        {done ? (
+                          <CheckCircle size={14} className="text-white" />
+                        ) : open ? (
+                          <span className="text-black font-bold text-[10px]">{level.id}</span>
+                        ) : (
+                          <Lock size={10} className="text-gray-600" />
+                        )}
+                      </div>
+
+                      {/* CARD */}
+                      <button
+                        onClick={() => open && navigate(`/level/${level.id}`)}
+                        disabled={!open}
+                        className={`
+                          relative w-full ml-6 p-4 text-left flex items-center gap-4 group transition-all duration-200 rounded-lg
+                          ${!open ? 'cursor-not-allowed opacity-20' : 'cursor-pointer'}
+                        `}
+                        style={{
+                          background: !open
+                            ? '#1a1a2e'
+                            : done
+                              ? 'linear-gradient(135deg, #14532d, #166534)'
                               : next
-                                ? 'bg-[#0a192f] border-y-white/10 border-r-white/10 cursor-pointer hover:-translate-y-1 hover:shadow-xl hover:scale-[1.02]'
-                                : open
-                                  ? 'bg-[#0a192f] border-y-white/10 border-r-white/10 cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:scale-[1.02]'
-                                  : 'bg-white/[0.02] border-y-white/5 border-r-white/5 cursor-not-allowed opacity-40 grayscale'
-                            }
-                          `}
-                          style={{
-                            borderLeftColor: done ? '#34d399' : theme.accent,
-                            ...(next ? { '--glow-color': theme.glow } : {}),
-                          }}
+                                ? `linear-gradient(135deg, ${theme.dark}, ${theme.mid})`
+                                : `linear-gradient(135deg, ${theme.dark}cc, ${theme.dark})`,
+                          border: !open
+                            ? '2px solid #333'
+                            : done
+                              ? '3px solid #22c55e'
+                              : next
+                                ? `3px solid ${theme.accent}`
+                                : `2px solid ${theme.accent}50`,
+                          boxShadow: next
+                            ? `4px 4px 0 #000, 0 0 30px ${theme.accent}40`
+                            : done
+                              ? '3px 3px 0 #000, 0 0 20px rgba(34,197,94,0.3)'
+                              : open
+                                ? '3px 3px 0 #000'
+                                : 'none',
+                          ...(next ? { '--glow-color': theme.glow } : {}),
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!open) return;
+                          e.currentTarget.style.transform = 'translateX(8px) scale(1.03)';
+                          e.currentTarget.style.boxShadow = `6px 6px 0 #000, 0 0 40px ${done ? 'rgba(34,197,94,0.5)' : theme.glow}`;
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!open) return;
+                          e.currentTarget.style.transform = '';
+                          e.currentTarget.style.boxShadow = next
+                            ? `4px 4px 0 #000, 0 0 30px ${theme.accent}40`
+                            : done
+                              ? '3px 3px 0 #000, 0 0 20px rgba(34,197,94,0.3)'
+                              : '3px 3px 0 #000';
+                        }}
+                      >
+                        {/* Pulse glow on next */}
+                        {next && (
+                          <div className="absolute inset-0 rounded-lg animate-pulse-glow pointer-events-none" style={{ '--glow-color': theme.glow }} />
+                        )}
+
+                        {/* Emoji — big and bouncy */}
+                        <div className={`text-3xl flex-shrink-0 ${next ? 'animate-float' : ''} ${done ? '' : ''}`}
+                          style={{ filter: open ? `drop-shadow(0 0 8px ${done ? 'rgba(34,197,94,0.5)' : theme.glow})` : 'grayscale(1)' }}
                         >
-                          {/* PULSING GLOW FOR NEXT */}
+                          {open ? level.emoji : '🔒'}
+                        </div>
+
+                        {/* Text */}
+                        <div className="flex-1 min-w-0">
+                          <span className={`text-sm font-heading font-bold uppercase tracking-wide block truncate ${done ? 'text-green-300' : 'text-white'}`}>
+                            {level.title}
+                          </span>
+                          <p className="text-xs text-white/60 mt-0.5 leading-relaxed line-clamp-1 font-body">
+                            {level.description}
+                          </p>
+                          {done && <span className="text-[10px] font-anime text-green-400 mt-0.5 block tracking-wider">COMPLETED ✓</span>}
                           {next && (
-                            <div
-                              className="absolute inset-0 rounded-2xl animate-pulse-glow pointer-events-none"
-                              style={{ '--glow-color': theme.glow }}
-                            />
+                            <span className="text-[10px] font-anime mt-0.5 block tracking-wider" style={{ color: theme.accent }}>
+                              ▸ START QUEST!
+                            </span>
                           )}
+                        </div>
 
-                          {/* EMOJI ICON */}
-                          <div className={`
-                            relative flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-2xl
-                            ${done
-                              ? 'bg-emerald-500/15'
-                              : next
-                                ? 'animate-float'
-                                : open
-                                  ? 'bg-white/5'
-                                  : 'bg-white/5'
-                            }
-                          `}
-                            style={!done && open ? { backgroundColor: `${theme.accent}15` } : {}}
-                          >
-                            {!open ? (
-                              <Lock size={20} className="text-[#8892b0]" />
-                            ) : (
-                              <span>{level.emoji}</span>
-                            )}
-                            {/* Green check badge for completed */}
-                            {done && (
-                              <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
-                                <CheckCircle size={14} className="text-white" />
-                              </div>
-                            )}
+                        {/* Arrow */}
+                        {open && (
+                          <ChevronRight size={20} className="flex-shrink-0 group-hover:translate-x-2 transition-transform" style={{ color: done ? '#22c55e' : theme.accent }} />
+                        )}
+
+                        {/* Corner sparkle on next card */}
+                        {next && (
+                          <div className="absolute -top-2 -right-2">
+                            <Sparkle color={theme.accent} size={22} />
                           </div>
-
-                          {/* TEXT */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="text-[10px] font-mono" style={{ color: theme.accent }}>
-                                {String(level.id).padStart(2, '0')}
-                              </span>
-                              <span className={`text-sm font-heading font-bold uppercase tracking-wide truncate ${done ? 'text-emerald-400' : open ? 'text-white' : 'text-[#8892b0]'}`}>
-                                {level.title}
-                              </span>
-                            </div>
-                            <p className="text-xs text-[#8892b0] mt-1 leading-relaxed line-clamp-2 font-body">
-                              {level.description}
-                            </p>
-                            {done && <span className="text-[9px] font-mono text-emerald-400/60 mt-1 block">COMPLETED</span>}
-                            {next && (
-                              <span className="text-[9px] font-heading font-bold mt-1 block tracking-widest" style={{ color: theme.accent }}>
-                                ▸ START QUEST
-                              </span>
-                            )}
-                          </div>
-
-                          {/* ARROW */}
-                          {open && (
-                            <ChevronRight size={16} className={`flex-shrink-0 ${done ? 'text-emerald-400/40' : ''} group-hover:translate-x-1 transition-transform`} style={!done ? { color: theme.accent } : {}} />
-                          )}
-                        </button>
-                      </motion.div>
-                    </div>
+                        )}
+                      </button>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -172,7 +262,6 @@ const WorldMap = ({ data, unlocked, completed }) => {
           );
         })}
 
-        {/* BOTTOM SPACER */}
         <div className="h-10" />
       </div>
     </div>

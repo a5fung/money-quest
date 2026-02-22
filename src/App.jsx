@@ -4,7 +4,6 @@ import WorldMap from './components/WorldMap';
 import LevelPlayer from './components/LevelPlayer';
 import { courseData } from './courseData';
 
-// Wrapper that forces LevelPlayer to remount when the level id changes
 const LevelRoute = (props) => {
   const { id } = useParams();
   return <LevelPlayer key={id} {...props} />;
@@ -23,34 +22,67 @@ const loadSave = () => {
         wealth: parsed.wealth || 0,
       };
     }
-  } catch {
-    // corrupted save — start fresh
-  }
+  } catch { /* corrupted */ }
   return { unlockedLevels: [1], completedLevels: [], wealth: 0 };
 };
+
+// Floating sparkle particles for the background
+const particles = Array.from({ length: 25 }, (_, i) => ({
+  id: i,
+  left: `${(i * 4.17) % 100}%`,
+  size: 4 + (i % 5) * 3,
+  dur: 8 + (i % 7) * 3,
+  delay: (i % 10) * 1.5,
+  color: ['#f472b6', '#38bdf8', '#a3e635', '#fb923c', '#c084fc', '#fbbf24'][i % 6],
+  shape: i % 3, // 0=circle, 1=star, 2=diamond
+}));
+
+const ParticleField = () => (
+  <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    {/* Gradient overlay on the whole page */}
+    <div
+      className="absolute inset-0"
+      style={{
+        background: 'radial-gradient(ellipse at 20% 20%, rgba(147,51,234,0.15), transparent 50%), radial-gradient(ellipse at 80% 60%, rgba(6,182,212,0.12), transparent 50%), radial-gradient(ellipse at 50% 90%, rgba(244,114,182,0.1), transparent 50%)',
+      }}
+    />
+    {particles.map(p => (
+      <div
+        key={p.id}
+        className="absolute animate-float-up"
+        style={{
+          left: p.left,
+          bottom: '-20px',
+          '--dur': `${p.dur}s`,
+          animationDelay: `${p.delay}s`,
+        }}
+      >
+        {p.shape === 0 ? (
+          <div style={{ width: p.size, height: p.size, borderRadius: '50%', background: p.color, boxShadow: `0 0 ${p.size * 2}px ${p.color}` }} />
+        ) : p.shape === 1 ? (
+          <div style={{ color: p.color, fontSize: p.size * 1.5, lineHeight: 1, filter: `drop-shadow(0 0 ${p.size}px ${p.color})` }}>✦</div>
+        ) : (
+          <div style={{ width: p.size, height: p.size, background: p.color, transform: 'rotate(45deg)', boxShadow: `0 0 ${p.size * 2}px ${p.color}` }} />
+        )}
+      </div>
+    ))}
+  </div>
+);
 
 function App() {
   const [unlockedLevels, setUnlockedLevels] = useState(() => loadSave().unlockedLevels);
   const [completedLevels, setCompletedLevels] = useState(() => loadSave().completedLevels);
   const [wealth, setWealth] = useState(() => loadSave().wealth);
 
-  // Persist to localStorage on change
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      unlockedLevels,
-      completedLevels,
-      wealth,
-    }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ unlockedLevels, completedLevels, wealth }));
   }, [unlockedLevels, completedLevels, wealth]);
 
   const completeLevel = (levelId) => {
-    // Only award wealth if not already completed
     if (!completedLevels.includes(levelId)) {
       setWealth(prev => prev + 1000);
       setCompletedLevels(prev => [...prev, levelId]);
     }
-
-    // Unlock next level
     const nextLevel = levelId + 1;
     if (nextLevel <= courseData.length && !unlockedLevels.includes(nextLevel)) {
       setUnlockedLevels(prev => [...prev, nextLevel]);
@@ -59,34 +91,96 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-[#0a192f] text-[#ccd6f6] font-body">
-        {/* HEADER */}
-        <header className="p-4 md:p-6 bg-[#112240]/90 backdrop-blur-md sticky top-0 z-[100] border-b-2 border-transparent" style={{ borderImage: 'linear-gradient(to right, #a78bfa, #60a5fa, #34d399, #fbbf24) 1' }}>
-          <div className="max-w-4xl mx-auto flex justify-between items-center">
-            <Link to="/" className="font-heading font-bold text-xl md:text-2xl tracking-tight hover:scale-105 transition-transform">
-              <span className="bg-gradient-to-r from-act-1 via-act-2 to-act-3 bg-clip-text text-transparent">MONEY QUEST</span>
-            </Link>
-            <div className="flex items-center gap-5">
-              <div className="flex items-center gap-1.5 bg-white/5 rounded-full px-3 py-1.5">
-                <span className="text-base">🏆</span>
-                <span className="text-white font-heading font-bold text-sm">{completedLevels.length}/{courseData.length}</span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-white/5 rounded-full px-3 py-1.5">
-                <span className="text-base">💎</span>
-                <span className="text-act-4 font-heading font-bold text-sm">${wealth.toLocaleString()}</span>
+      <div className="min-h-screen text-white font-body relative">
+        <ParticleField />
+
+        {/* HEADER — diagonal manga banner style */}
+        <header className="sticky top-0 z-[100] relative overflow-hidden">
+          {/* Main gradient bar */}
+          <div
+            className="relative px-4 md:px-6 py-3"
+            style={{
+              background: 'linear-gradient(135deg, #be185d 0%, #7c3aed 40%, #0ea5e9 100%)',
+            }}
+          >
+            {/* Diagonal accent stripe */}
+            <div
+              className="absolute top-0 right-0 w-1/3 h-full"
+              style={{
+                background: 'linear-gradient(135deg, transparent 0%, rgba(251,191,36,0.3) 100%)',
+                clipPath: 'polygon(30% 0, 100% 0, 100% 100%, 0% 100%)',
+              }}
+            />
+            {/* Speed lines in header */}
+            <div
+              className="absolute inset-0 opacity-[0.08]"
+              style={{
+                backgroundImage: 'repeating-linear-gradient(-45deg, transparent, transparent 8px, white 8px, white 9px)',
+              }}
+            />
+
+            <div className="max-w-4xl mx-auto flex justify-between items-center relative z-10">
+              <Link to="/" className="hover:scale-105 transition-transform flex items-center gap-2">
+                <span className="animate-twinkle text-yellow-300 text-3xl">✦</span>
+                <span
+                  className="font-anime text-3xl md:text-4xl tracking-wider text-white"
+                  style={{
+                    textShadow: '3px 3px 0 #000, -1px -1px 0 #000, 0 0 20px #f472b6, 0 0 40px #7c3aed',
+                    WebkitTextStroke: '1px rgba(0,0,0,0.3)',
+                  }}
+                >
+                  MONEY QUEST
+                </span>
+                <span className="animate-twinkle-delay text-pink-300 text-3xl">✦</span>
+              </Link>
+
+              <div className="flex items-center gap-2">
+                {/* Stat badges — manga-style tilted tags */}
+                <div
+                  className="flex items-center gap-2 px-4 py-1.5 font-anime text-lg tracking-wider"
+                  style={{
+                    background: '#0ea5e9',
+                    border: '3px solid #000',
+                    boxShadow: '3px 3px 0 #000',
+                    transform: 'rotate(-2deg)',
+                    borderRadius: '4px',
+                  }}
+                >
+                  🏆 {completedLevels.length}/{courseData.length}
+                </div>
+                <div
+                  className="flex items-center gap-2 px-4 py-1.5 font-anime text-lg tracking-wider"
+                  style={{
+                    background: '#fb923c',
+                    border: '3px solid #000',
+                    boxShadow: '3px 3px 0 #000',
+                    transform: 'rotate(2deg)',
+                    borderRadius: '4px',
+                  }}
+                >
+                  💎 ${wealth.toLocaleString()}
+                </div>
               </div>
             </div>
           </div>
+          {/* Jagged bottom edge */}
+          <div style={{
+            height: '12px',
+            background: 'linear-gradient(135deg, #be185d, #7c3aed, #0ea5e9)',
+            clipPath: 'polygon(0 0, 5% 100%, 10% 0, 15% 100%, 20% 0, 25% 100%, 30% 0, 35% 100%, 40% 0, 45% 100%, 50% 0, 55% 100%, 60% 0, 65% 100%, 70% 0, 75% 100%, 80% 0, 85% 100%, 90% 0, 95% 100%, 100% 0)',
+          }} />
         </header>
 
-        <Routes>
-          <Route path="/" element={
-            <WorldMap data={courseData} unlocked={unlockedLevels} completed={completedLevels} />
-          } />
-          <Route path="/level/:id" element={
-            <LevelRoute data={courseData} onComplete={completeLevel} completed={completedLevels} />
-          } />
-        </Routes>
+        <div className="relative z-10">
+          <Routes>
+            <Route path="/" element={
+              <WorldMap data={courseData} unlocked={unlockedLevels} completed={completedLevels} />
+            } />
+            <Route path="/level/:id" element={
+              <LevelRoute data={courseData} onComplete={completeLevel} completed={completedLevels} />
+            } />
+          </Routes>
+        </div>
       </div>
     </Router>
   );
