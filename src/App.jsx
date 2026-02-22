@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
+import { RotateCcw } from 'lucide-react';
 import WorldMap from './components/WorldMap';
 import LevelPlayer from './components/LevelPlayer';
 import { courseData } from './courseData';
@@ -78,6 +79,15 @@ function App() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ unlockedLevels, completedLevels, wealth }));
   }, [unlockedLevels, completedLevels, wealth]);
 
+  const [showRestart, setShowRestart] = useState(false);
+
+  const restartGame = () => {
+    setUnlockedLevels([1]);
+    setCompletedLevels([]);
+    setWealth(0);
+    setShowRestart(false);
+  };
+
   const completeLevel = (levelId) => {
     if (!completedLevels.includes(levelId)) {
       setWealth(prev => prev + 1000);
@@ -134,7 +144,22 @@ function App() {
                 <span className="animate-twinkle-delay text-pink-300 text-3xl">✦</span>
               </Link>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap justify-end">
+                {/* Restart button */}
+                <button
+                  onClick={() => setShowRestart(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 font-anime text-sm tracking-wider hover:scale-110 transition-transform"
+                  style={{
+                    background: '#dc2626',
+                    border: '3px solid #000',
+                    boxShadow: '3px 3px 0 #000',
+                    transform: 'rotate(-1deg)',
+                    borderRadius: '4px',
+                  }}
+                  title="Restart game"
+                >
+                  <RotateCcw size={14} /> RESTART
+                </button>
                 {/* Stat badges — manga-style tilted tags */}
                 <div
                   className="flex items-center gap-2 px-4 py-1.5 font-anime text-lg tracking-wider"
@@ -181,6 +206,56 @@ function App() {
             } />
           </Routes>
         </div>
+        {/* Restart confirmation modal */}
+        {showRestart && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.7)' }}>
+            <div
+              className="relative p-6 max-w-sm w-full text-center"
+              style={{
+                background: 'linear-gradient(135deg, #1e1b4b, #312e81)',
+                border: '4px solid #000',
+                boxShadow: '6px 6px 0 #000, 0 0 40px rgba(220,38,38,0.4)',
+                borderRadius: '8px',
+              }}
+            >
+              <div className="text-5xl mb-3">⚠️</div>
+              <h2 className="font-anime text-2xl tracking-wider text-red-400 mb-2" style={{ textShadow: '2px 2px 0 #000' }}>
+                RESTART QUEST?
+              </h2>
+              <p className="text-white/70 font-body text-sm mb-5">
+                All progress, completed levels, and wealth will be reset. This cannot be undone!
+              </p>
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={() => setShowRestart(false)}
+                  className="px-5 py-2 font-anime text-lg tracking-wider hover:scale-105 transition-transform"
+                  style={{
+                    background: '#374151',
+                    border: '3px solid #000',
+                    boxShadow: '3px 3px 0 #000',
+                    borderRadius: '4px',
+                    color: '#fff',
+                  }}
+                >
+                  CANCEL
+                </button>
+                <button
+                  onClick={restartGame}
+                  className="px-5 py-2 font-anime text-lg tracking-wider hover:scale-105 transition-transform"
+                  style={{
+                    background: '#dc2626',
+                    border: '3px solid #000',
+                    boxShadow: '3px 3px 0 #000',
+                    borderRadius: '4px',
+                    color: '#fff',
+                  }}
+                >
+                  RESTART!
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Router>
   );
